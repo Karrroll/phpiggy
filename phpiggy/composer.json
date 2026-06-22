@@ -1,0 +1,18 @@
+{
+    "name": "user/phpiggy",
+    "description": "A PHP application for tracking expenses.",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Karol Jurzec",
+            "email": "karol.jurzec.programista@gmail.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Framework\\": "src/Framework",
+            "App\\": "src/App"
+        }
+    }
+}
