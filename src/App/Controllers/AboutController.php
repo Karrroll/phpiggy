@@ -7,8 +7,7 @@ namespace App\Controllers;
 use Framework\TemplateEngine;
 use App\Config\Paths;
 
-class AboutController
-{
+class AboutController {
   public function __construct(private TemplateEngine $view) {
   }
 
