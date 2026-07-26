@@ -18,13 +18,20 @@ class Validator {
 
     foreach($fields as $fieldName => $rules) {     //single form input with rules array
       foreach($rules as $rule) {                  //single rule from array rules
+        $ruleParams = [];
+        //statement only for special custom params like "min:18" - otherwise $ruleParams is empty
+        if(str_contains($rule, ':')) {
+          [$rule, $ruleParams] = explode(':', $rule);
+          $ruleParams = explode(',', $ruleParams);
+        }
+        
         $ruleValidator = $this->rules[$rule];     //assign rule to variable
 
-        if($ruleValidator->validate($formData, $fieldName, [])) {
+        if($ruleValidator->validate($formData, $fieldName, $ruleParams)) {
           continue;
         }
 
-        $errors[$fieldName][] = $ruleValidator->getMessage($formData, $fieldName, []);
+        $errors[$fieldName][] = $ruleValidator->getMessage($formData, $fieldName, $ruleParams);
       }
     }
 
