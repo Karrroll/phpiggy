@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Framework;
 
 use Framework\Contracts\RuleInterface;
+use Framework\Exceptions\ValidationException;
 
 class Validator {
   private array $rules = [];
@@ -13,6 +14,8 @@ class Validator {
   }
 
   public function validate(array $formData, array $fields) {
+    $errors = [];
+
     foreach($fields as $fieldName => $rules) {     //single form input with rules array
       foreach($rules as $rule) {                  //single rule from array rules
         $ruleValidator = $this->rules[$rule];     //assign rule to variable
@@ -21,8 +24,12 @@ class Validator {
           continue;
         }
 
-        echo "Error";
+        $errors[$fieldName][] = $ruleValidator->getMessage($formData, $fieldName, []);
       }
+    }
+
+    if(count($errors)) {
+      throw new ValidationException($errors);
     }
   }
 }
