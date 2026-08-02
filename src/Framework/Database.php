@@ -6,7 +6,7 @@ namespace Framework;
 use PDO, PDOException;
 
 class Database {
-  public PDO $connection;
+  private PDO $connection;
 
   public function __construct(string $driver, array $config, string $username, string $password ) {
     //http_build_query() to convert array for string with ; separator between properties
@@ -18,5 +18,9 @@ class Database {
     } catch(PDOException $e) {
       die("Unable to connect to database.");
     }
+  }
+
+  public function query(string $query) {
+    $this->connection->query($query);     //PDO method
   }
 }
