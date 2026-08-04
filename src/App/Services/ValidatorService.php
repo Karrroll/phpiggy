@@ -32,5 +32,13 @@ class ValidatorService {
       'terms' => ['required']
     ]);
   }
+
+  public function validateLogin(array $formData) {
+    $this->validator->validate($formData, [
+      //for each input form field add the required rule aliases
+      'email' => ['required', 'email'],
+      'password' => ['required']
+    ]);
+  }
 }
 ?>

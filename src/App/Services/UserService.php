@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use Exception;
 use Framework\Database;
 use Framework\Exceptions\ValidationException;
 
@@ -34,5 +35,17 @@ class UserService {
         'url' => $formData['socialMediaURL']
       ]
     );
+  }
+
+  public function login(array $formData) {
+    $user = $this->db->query("SELECT * FROM users WHERE email = :email", ['email' => $formData['email']])->find();
+
+    $passwordsMatch = password_verify($formData['password'], $user['password'] ?? '');
+
+    if(!$user || !$passwordsMatch) {
+      throw new ValidationException(['password' => ['Invalid credentials']]);
+    }
+
+    $_SESSION['user'] = $user['id'];
   }
 }
