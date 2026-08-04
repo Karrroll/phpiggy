@@ -9,8 +9,7 @@ class MatchRule implements RuleInterface {
   public function validate(array $data, string $field, array $params): bool {
     //special custom params for confirm password field: 'match:password' => $params = password field content
     $fieldOne = $data[$field];
-    $fieldTwo = $params[0];
-    
+    $fieldTwo = $data[$params[0]];
     return $fieldOne === $fieldTwo;
   }
 
