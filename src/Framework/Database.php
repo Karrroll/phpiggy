@@ -36,4 +36,9 @@ class Database {
     //return results from query as an array
     return $this->stmt->fetch();
   }
+
+  public function id() {
+    //return last added record id's to database
+    return $this->connection->lastInsertId();
+  }
 }
