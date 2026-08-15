@@ -14,6 +14,8 @@ class TemplateEngine
 
   public function render(string $template, array $data = [])
   {
+    //convert array keys into variables
+    //e.g. $data = ['a' => 1] becomes $a = 1
     extract($data, EXTR_SKIP);
     extract($this->globalTemplateData, EXTR_SKIP);
 
