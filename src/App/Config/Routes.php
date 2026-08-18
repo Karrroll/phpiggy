@@ -9,6 +9,7 @@ use App\Controllers\{HomeController, AboutController, AuthController, Transactio
 use App\Middleware\{AuthRequiredMiddleware, GuestOnlyMiddleware};
 
 function registerRoutes(App $app) {
+  //get('URL address{optional parameter}', [class name::class, 'class method'])
   $app->get('/', [HomeController::class, 'home'])->add(AuthRequiredMiddleware::class);
   $app->get('/about', [AboutController::class, 'about']);
   
@@ -22,4 +23,9 @@ function registerRoutes(App $app) {
 
   $app->get('/transaction', [TransactionController::class, 'createView'])->add(AuthRequiredMiddleware::class);
   $app->post('/transaction', [TransactionController::class, 'create'])->add(AuthRequiredMiddleware::class);
+
+  $app->get('/transaction/{transaction}', [TransactionController::class, 'editView']);
+  $app->post('/transaction/{transaction}', [TransactionController::class, 'edit']);
+
+  $app->delete('/transaction/{transaction}', [TransactionController::class, 'delete']);
 }

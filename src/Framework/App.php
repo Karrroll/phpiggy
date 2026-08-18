@@ -8,8 +8,8 @@ class App
 {
   private Router $router;
   private Container $container;
-
-  public function __construct(string $containerDefinitionsPath = NULL) {
+  //?string $containerDefinitionsPath = NULL - meaans can be NULL or string
+  public function __construct(?string $containerDefinitionsPath = NULL) {
     $this->router = new Router();
     $this->container = new Container();
 
@@ -44,5 +44,11 @@ class App
 
   public function add(string $middleware) {
     $this->router->addRouteMiddleware($middleware);
+  }
+
+  public function delete(string $path, array $controller) : App {
+    $this->router->add('DELETE', $path, $controller);
+
+    return $this;
   }
 }
