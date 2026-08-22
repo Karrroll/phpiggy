@@ -4,10 +4,14 @@ declare(strict_types=1);
 namespace App\Controllers;
 
 use Framework\TemplateEngine;
-use App\Services\{TransactionService};
+use App\Services\{TransactionService, ReceiptService};
 
 class ReceiptController {
-  public function __construct(private TemplateEngine $view, private TransactionService $transactionService) {
+  public function __construct(
+    private TemplateEngine $view,
+    private TransactionService $transactionService,
+    private ReceiptService $receiptService
+  ) {
   }
 
   public function uploadView(array $params) {
@@ -27,8 +31,10 @@ class ReceiptController {
       redirectTo("/");
     }
 
-    dd($_FILES);
-    
+    //check if submitted form contains file, then validate
+    $receiptFile = $_FILES['receipt'] ?? NULL;
+    $this->receiptService->validateFile($receiptFile);
+
     redirectTo("/");
   }
 }
