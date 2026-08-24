@@ -1,11 +1,9 @@
 <?php
-
 declare(strict_types=1);
 
 namespace Framework;
 
-class App
-{
+class App {
   private Router $router;
   private Container $container;
   //?string $containerDefinitionsPath = NULL - meaans can be NULL or string
@@ -50,5 +48,9 @@ class App
     $this->router->add('DELETE', $path, $controller);
 
     return $this;
+  }
+
+  public function setErrorHandler(array $controller) {
+    $this->router->setErrorHandler($controller);
   }
 }
