@@ -1,6 +1,6 @@
 <?php
 declare(strict_types=1);
-
+//Load Composer's autoloader to automatically load classes and functions
 include __DIR__ ."/../../vendor/autoload.php";
 
 use Framework\App;

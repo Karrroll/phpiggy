@@ -8,6 +8,8 @@ class TemplateEngine
 {
   private array $globalTemplateData = [];
 
+  //set a mandatory parameter for the TemplateEngine object.
+  //it should indicate the path to the templates (views) directory.
   public function __construct(private string $basePath)
   {
   }

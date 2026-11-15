@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace App\Config;
 
+//import needed class names to current namespace
 use Framework\App;
 use App\Controllers\{HomeController, AboutController, AuthController, TransactionController, ReceiptController, ErrorController};
 use App\Middleware\{AuthRequiredMiddleware, GuestOnlyMiddleware};
 
 function registerRoutes(App $app) {
   //get('URL address{optional parameter}', [class name::class, 'class method'])
+  //ClassName::class is a PHP constant. It is a full class name as string!! HomeController::class => "App\Controllers\HomeController"
+
   $app->get('/', [HomeController::class, 'home'])->add(AuthRequiredMiddleware::class);
   $app->get('/about', [AboutController::class, 'about']);
   
