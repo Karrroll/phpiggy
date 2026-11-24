@@ -7,9 +7,9 @@ use ReflectionClass, ReflectionNamedType;
 use Framework\Exceptions\ContainerException;
 
 class Container {
-  //store exists definitions
+  // Store exists definitions
   private array $definitions = [];
-  //store created objects
+  // Store already instantiated objects
   private array $resolved = [];
 
   public function addDefinitions(array $newDefinitions) {
@@ -71,27 +71,44 @@ class Container {
   }
 
   public function get(string $id) {
+    // Check if the requested class is registered in the container
     // Check if the requested key: $id exists in the $definitions array
     if(!array_key_exists($id, $this->definitions)) {
       throw new ContainerException("Class {$id} does not exist in container.");
     }
+
+    // Check if an instance of this class has already been created
+    // If it exists, return the previously created instance instead of creating a new one
+    // This ensures that the same instance is reused (Singleton pattern)
 
     //Check if the requested key: $id already exists in the $resolved array
     if(array_key_exists($id, $this->resolved)) {
       //Return the value stored under the $id key in the $resolved array
       //e.g. TemplateEngine::class => fn() => new TemplateEngine(Paths::VIEW)
       //if $id = TemplateEngine::class return new TemplateEngine(Paths::VIEW)
+
+      // Return already created instance
       return $this->resolved[$id];
     }
 
+    // Get the factory (anonymous function) registered for this class
+    // The factory is responsible for creating the dependency
+    // Example: TemplateEngine::class => fn() => new TemplateEngine(Paths::VIEW)
+
     //Assign the value stored under the $id key in the $definitions array
     $factory = $this->definitions[$id];
-    //Call the function stored under $factory
-    //$this refers to the current Container object. Only some anonymous functions need it as an argument
+
+    // Execute the factory function to create the dependency
+    // Pass the current Container object ($this) as an argument
+    // The factory can use the container to resolve other dependencies if needed
     $dependency = $factory($this);
 
-    //Add created object to $resolved array with $id key
+    // Store the newly created instance in the $resolved array
+    // Use the class name ($id) as the key and the object as the value
+    // This allows the container to reuse the same instance next time it is requested
     $this->resolved[$id] = $dependency;
+    
+    // Return the newly created dependency
     return $dependency;
   }
 }

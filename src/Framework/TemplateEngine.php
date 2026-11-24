@@ -16,8 +16,9 @@ class TemplateEngine
 
   public function render(string $template, array $data = [])
   {
-    //convert array keys into variables
-    //e.g. $data = ['a' => 1] becomes $a = 1
+    // Convert array keys into variables
+    // e.g. $data = ['a' => 1] becomes $a = 1
+    // This allows use $a instead of $this->data['a'] in the $template
     extract($data, EXTR_SKIP);
     extract($this->globalTemplateData, EXTR_SKIP);
 
@@ -37,6 +38,8 @@ class TemplateEngine
     return "{$this->basePath}/{$path}";
   }
 
+  // Method to add a global variable e.g. ['title' => 'Home Page']
+  // extract() in the render() method allows use $title instead of $this->globalTemplateData['title'] in the $template
   public function addGlobal(string $key, mixed $value) {
     $this->globalTemplateData[$key] = $value;
   }

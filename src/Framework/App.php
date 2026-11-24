@@ -39,7 +39,7 @@ class App {
   //return current App object - helps with method chaining - allow call multiple methods one after another
     return $this;
   }
-    
+
   //method to add/register a new POST route in the Router class.
   public function post(string $path, array $controller) : App {
     $this->router->add('POST', $path, $controller);
@@ -47,6 +47,7 @@ class App {
     return $this;
   }
 
+  //Pass the middleware class name ($middleware) to the Router's addMiddleware() method 
   public function addMiddleware(string $middleware) {
     $this->router->addMiddleware($middleware);
   }
